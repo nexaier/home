@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXAIER - Futuristic Store</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>NEXAIER</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/cart">Cart</a>
+      <a href="/contact">Contact</a>
+      <a href="/about">About</a>
+    </nav>
+  </header>
+
+  <section id="products"></section>
+
+  <footer>
+    <p>Follow us on:
+      <a href="https://instagram.com/nexaier" target="_blank">Instagram</a> |
+      <a href="https://facebook.com/nexaier" target="_blank">Facebook</a> |
+      <a href="https://twitter.com/nexaier" target="_blank">Twitter</a>
+    </p>
+  </footer>
+
+  <script>
+    async function fetchProducts() {
+      const res = await fetch('https://YOUR_SHOPIFY_STORE.myshopify.com/admin/api/2024-04/products.json', {
+        headers: {
+          'X-Shopify-Access-Token': 'YOUR_ACCESS_TOKEN',
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await res.json();
+      const container = document.getElementById('products');
+      data.products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${product.image?.src}" alt="${product.title}" />
+          <h3>${product.title}</h3>
+          <p>${product.body_html}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+    fetchProducts();
+  </script>
+</body>
+</html>
